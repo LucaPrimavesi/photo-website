@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Fotografia | Luca Primavesi</title>
+    <style>
+        /* Reset e Stile Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
+        
+        /* Header */
+        header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
+        h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px; }
+        nav { margin-top: 20px; }
+        nav a { margin: 0 15px; text-decoration: none; color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        nav a:hover { color: #000; }
+
+        /* Griglie */
+        .gallery, .other-projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-gap: 20px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            background-color: #eee;
+            aspect-ratio: 3 / 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+
+        .gallery-item img:hover { transform: scale(1.03); }
+
+        /* Gestione Sezioni (Logica migliorata) */
+        section, main { display: none; }
+        
+        /* Mostra la sezione attiva in base all'URL */
+        #gallery:target, #about:target, #other-projects:target { display: block; }
+
+        /* Stato iniziale: se non c'è hashtag o è proprio #gallery, mostra la gallery */
+        body:not(:has(:target)) #gallery, #gallery:target { display: block; }
+
+        .section-title { text-align: center; padding-top: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Stile About Me (Testo integrale) */
+        .about-section { max-width: 800px; margin: 60px auto; padding: 0 40px; text-align: left; }
+        .about-section h2 { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .about-content h3 { font-weight: 400; margin: 30px 0 15px 0; text-transform: uppercase; font-size: 1.2rem; color: #111; }
+        .about-content p { margin-bottom: 20px; color: #555; font-size: 1.1rem; }
+
+        footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>LUCA PRIMAVESI</h1>
+        <p>Photographer | Uncovering the stories that lie beneath</p>
+        <nav>
+            <a href="#gallery">Gallery</a>
+            <a href="#other-projects">Other Projects</a>
+            <a href="#about">About Me</a>
+            <a href="mailto:luca@primavesi.it">Contact</a>
+        </nav>
+    </header>
+
+    <main id="gallery" class="gallery">
+        <div class="gallery-item"><img src="https://via.placeholder.com/800x600" alt="Archaeological work"></div>
+        <div class="gallery-item"><img src="https://via.placeholder.com/800x600" alt="Street photography"></div>
+        <div class="gallery-item"><img src="https://via.placeholder.com/800x600" alt="Portrait"></div>
+    </main>
+
+    <section id="other-projects">
+        <h2 class="section-title">Other Projects</h2>
+        <div id="pano-container" class="other-projects-grid">
+            <p id="loading-msg" style="text-align: center; grid-column: 1/-1;">In attesa di configurazione GitHub...</p>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <p>
+                As a photographer, I am on a constant journey of discovery, searching for beauty in all its diverse forms. 
+                My unique perspective is shaped by my experience of working on archaeological excavations, where I document the meticulous process of discovery and the artefacts that emerge from the earth. 
+                This professional background has taught me to look beneath the surface and to view every modern scene as a layer of history in the making.
+            </p>
+
+            <h3>The Geometry of Silence</h3>
+            <p>
+                This 'archaeological' precision carries over into my monochrome street photography. 
+                I am drawn to the profound depth found within the infinite shades of grey — a palette that enables me to eliminate the distractions of colour. 
+                In my photographs, I often seek to create a metaphysical atmosphere, transforming ordinary street corners into spaces for quiet contemplation.
+            </p>
+            <p>
+                I am particularly fascinated by public spaces. When I capture these large communal environments inhabited by a solitary figure, I see a poignant metaphor for contemporary life: although we are connected by shared structures, we are often alone on our journeys.
+            </p>
+
+            <h3>The Human Connection</h3>
+            <p>
+                My work is also defined by the people I meet. 
+                I am passionate about unstaged portraits, especially those taken during people's daily work, as a nod to the teamwork and dedication I witness on site. 
+                My approach is simple: I ask for a smile. These brief, authentic interactions have evolved into a dedicated collection that honours the dignity of the present moment.
+            </p>
+
+            <h3>New Perspectives & Ethos</h3>
+            <p>
+                I am currently shaping a new project focusing on disabled people, capturing them in meaningful poses in their everyday lives. 
+                To me, these images serve as a powerful reminder that life should always be lived to the fullest.
+            </p>
+            <p>
+                Across all my projects, from ancient excavation sites to the shadows of city streets, I strive to maintain an empathetic and occasionally ironic view of life. 
+                I don't just record what is there; I uncover the stories that lie beneath.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Luca Primavesi Photography. All rights reserved.
+    </footer>
+
+    <script>
+        // CONFIGURAZIONE: Inserisci qui i tuoi dati GitHub
+        const GITHUB_CONFIG = {
+            username: 'IL_TUO_UTENTE', // Es: 'lucaprimavesi'
+            repo: 'LA_TUA_REPO'
