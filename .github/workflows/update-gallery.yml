@@ -1,9 +1,10 @@
 name: Update Gallery Index
+
 on:
   push:
     paths:
       - 'img/**'
-  workflow_dispatch: # Questo ti permette di farlo partire anche a mano
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,19 +12,21 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
-      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Generate JSON index
         run: |
           echo "[" > gallery.json
-          # Elenca i file in img, filtra per estensioni, aggiunge virgolette e virgole
-          ls img | grep -E "\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$" | sed 's/.*/"&",/' | sed '$ s/,$//' >> gallery.json
+          if [ -d "img" ]; then
+            ls img | grep -E "\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$" | sed 's/.*/"&",/' | sed '$ s/,$//' >> gallery.json
+          fi
           echo "]" >> gallery.json
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "Gallery Bot"
-          git config --global user.email "bot@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add gallery.json
-          git commit -m "Aggiornamento automatico galleria" || exit 0
+          git commit -m "Automated gallery update" || exit 0
           git push
