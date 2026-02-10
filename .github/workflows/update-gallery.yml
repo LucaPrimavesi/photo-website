@@ -1,20 +1,23 @@
-@@ -1 +1,25 @@
 name: Update Gallery Index
 on:
   push:
     paths:
-      - 'img/**' # Si attiva solo quando aggiungi foto nella cartella img
+      - 'img/**'
+  workflow_dispatch: # Questo ti permette di farlo partire anche a mano
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       
       - name: Generate JSON index
         run: |
           echo "[" > gallery.json
-          ls img | grep -E "\.(jpg|jpeg|png|webp)$" | sed 's/.*/"&",/' | sed '$ s/,$//' >> gallery.json
+          # Elenca i file in img, filtra per estensioni, aggiunge virgolette e virgole
+          ls img | grep -E "\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$" | sed 's/.*/"&",/' | sed '$ s/,$//' >> gallery.json
           echo "]" >> gallery.json
 
       - name: Commit and push changes
