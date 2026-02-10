@@ -178,7 +178,15 @@
                         grids[category].appendChild(item);
                     }
                 });
-
+                // Nasconde automaticamente le sezioni che non hanno immagini
+                Object.keys(grids).forEach(category => {
+                    if (grids[category].children.length === 0) {
+                        // Cerca il titolo (h2) che precede la griglia e nascondilo insieme alla griglia
+                        const sectionTitle = grids[category].previousElementSibling;
+                        if (sectionTitle) sectionTitle.style.display = 'none';
+                        grids[category].style.display = 'none';
+                     }
+});
                 // Se una categoria è rimasta vuota, mostra un messaggio cortese
                 Object.entries(grids).forEach(([name, grid]) => {
                     if (grid.children.length === 0) {
@@ -196,4 +204,5 @@
 </body>
 
 </html>
+
 
