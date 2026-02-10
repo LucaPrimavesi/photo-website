@@ -1,0 +1,20 @@
+name: Update Gallery
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Index
+        run: |
+          echo "[" > gallery.json
+          ls img | grep -E "\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$" | sed 's/.*/"&",/' | sed '$ s/,$//' >> gallery.json
+          echo "]" >> gallery.json
+      - name: Push
+        run: |
+          git config --global user.name "bot"
+          git config --global user.email "bot@bot.com"
+          git add gallery.json
+          git commit -m "update" || exit 0
+          git push
