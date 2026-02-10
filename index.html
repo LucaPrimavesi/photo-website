@@ -18,13 +18,12 @@
 
         /* LOGICA VISUALIZZAZIONE SEZIONI */
         .section-container { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
-        /* Mostra Street di default se non c'è una sezione nell'URL */
         body:not(:has(:target)) #street { display: block; }
         .section-container:target { display: block !important; }
 
         .section-title { text-align: center; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* GRIGLIA STANDARD (Street, Portrait, Archeo) - 3:2 proporzioni fisse */
+        /* GRIGLIA STANDARD (Street, Portrait, Archeo) */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -34,6 +33,7 @@
             overflow: hidden;
             background-color: #eee;
             aspect-ratio: 3 / 2;
+            cursor: pointer;
         }
         .gallery-item img {
             width: 100%;
@@ -44,7 +44,7 @@
         }
         .gallery-item img:hover { transform: scale(1.03); }
 
-        /* GRIGLIA MASONRY (Solo per la sezione Other) - Per paesaggi larghi */
+        /* GRIGLIA MASONRY (Sezione Other) */
         #grid-Other {
             display: block; 
             column-count: 2;
@@ -54,14 +54,11 @@
             display: inline-block;
             width: 100%;
             margin-bottom: 20px;
-            aspect-ratio: auto; /* Nessun taglio fisso */
+            aspect-ratio: auto;
             background-color: transparent;
             break-inside: avoid;
         }
-        #grid-Other .gallery-item img {
-            height: auto;
-            object-fit: contain;
-        }
+        #grid-Other .gallery-item img { height: auto; object-fit: contain; }
 
         /* STILE ABOUT ME */
         .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; text-align: left; }
@@ -69,11 +66,28 @@
         .about-content h3 { font-weight: 400; margin: 30px 0 15px 0; text-transform: uppercase; font-size: 1.2rem; color: #111; }
         .about-content p { margin-bottom: 20px; color: #555; font-size: 1.1rem; }
 
+        /* LIGHTBOX (Zoom foto) */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border-radius: 2px;
+        }
+
         footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
-        .loading-msg { text-align: center; color: #999; grid-column: 1/-1; padding: 40px; font-style: italic; }
         .nav-hidden { display: none; }
 
-        /* MOBILE */
         @media (max-width: 600px) {
             header { padding: 40px 20px; }
             nav a { display: block; margin: 10px 0; }
@@ -133,12 +147,19 @@
         </div>
     </section>
 
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="" alt="Zoom">
+    </div>
+
     <footer>
-        &copy; 2026 Luca Primavesi Photography. All rights reserved. <br>
+        &copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved. <br>
         <a href="mailto:luca@primavesi.it" style="color: #aaa; text-decoration: none;">luca@primavesi.it</a>
     </footer>
 
     <script>
+        // Gestione automatica anno Copyright
+        document.getElementById('year').textContent = new Date().getFullYear();
+
         async function loadGalleries() {
             try {
                 const response = await fetch('gallery.json?v=' + new Date().getTime());
@@ -152,21 +173,19 @@
                     'Archeo': document.getElementById('grid-Archeo'),
                 };
 
-                // Pulisce le griglie
                 Object.values(grids).forEach(g => g.innerHTML = '');
 
-                // Smista le immagini
                 images.forEach(imgName => {
                     const category = Object.keys(grids).find(cat => imgName.startsWith(cat));
                     if (category) {
                         const item = document.createElement('div');
                         item.className = 'gallery-item';
+                        item.onclick = () => openLightbox(`img/${imgName}`);
                         item.innerHTML = `<img src="img/${imgName}" alt="Luca Primavesi Photography" loading="lazy">`;
                         grids[category].appendChild(item);
                     }
                 });
 
-                // Gestione sezioni vuote
                 Object.keys(grids).forEach(cat => {
                     const grid = grids[cat];
                     const section = grid.parentElement;
@@ -183,6 +202,13 @@
             } catch (err) {
                 console.error("Errore:", err);
             }
+        }
+
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            lbImg.src = src;
+            lb.style.display = 'flex';
         }
 
         window.addEventListener('DOMContentLoaded', loadGalleries);
