@@ -1,20 +1,37 @@
-name: Update Gallery
+name: Update Gallery Index
+
 on:
+  push:
+    paths:
+      - 'img/**'
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Create Index
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Generate gallery.json
         run: |
           echo "[" > gallery.json
-          ls img | grep -E "\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$" | sed 's/.*/"&",/' | sed '$ s/,$//' >> gallery.json
+          # Elenca i file nelle cartelle img, filtrando per estensioni comuni
+          find img -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -exec basename {} \; | sed 's/.*/  "&",/' >> gallery.json
+          # Rimuove l'ultima virgola per rendere il JSON valido
+          sed -i '$ s/,$//' gallery.json
           echo "]" >> gallery.json
-      - name: Push
+
+      - name: Commit and push changes
         run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@bot.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add gallery.json
-          git commit -m "update" || exit 0
+          
+          # La riga magica: verifica se esiste un CNAME e lo preserva
+          if [ -f CNAME ]; then git add CNAME; fi
+          
+          git commit -m "Update gallery index [skip ci]" || echo "No changes to commit"
           git push
