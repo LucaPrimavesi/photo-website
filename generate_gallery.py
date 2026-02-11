@@ -2,27 +2,32 @@ import os
 import json
 
 def generate():
-    # Cartella dove si trovano le immagini
     image_dir = "img"
-    
-    # Estensioni supportate
     valid_extensions = ('.jpg', '.jpeg', '.png', '.webp', '.gif')
     
     if not os.path.exists(image_dir):
         print(f"Errore: La cartella '{image_dir}' non esiste!")
         return
 
-    # Legge i file nella cartella img
+    # 1. Legge i file nella cartella img
     files = [f for f in os.listdir(image_dir) if f.lower().endswith(valid_extensions)]
     
-    # Ordina i file alfabeticamente (così le categorie sono raggruppate)
+    # 2. Ordina alfabeticamente per avere una base pulita
     files.sort()
 
-    # Salva il file gallery.json
-    with open("gallery.json", "w", encoding="utf-8") as f:
-        json.dump(files, f, indent=2)
+    # 3. LOGICA DI PRIORITÀ: Portiamo Street in cima
+    # Creiamo due liste: una per Street e una per tutto il resto
+    street_files = [f for f in files if f.lower().startswith("street")]
+    other_files = [f for f in files if not f.lower().startswith("street")]
 
-    print(f"Successo! {len(files)} immagini trovate e salvate in gallery.json")
+    # Uniamo le liste: Street sarà sempre la prima
+    final_list = street_files + other_files
+
+    # 4. Salva il file gallery.json
+    with open("gallery.json", "w", encoding="utf-8") as f:
+        json.dump(final_list, f, indent=2)
+
+    print(f"Successo! {len(street_files)} foto Street e {len(other_files)} altre foto salvate.")
 
 if __name__ == "__main__":
     generate()
