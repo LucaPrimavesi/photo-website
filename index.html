@@ -135,7 +135,7 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        async function loadGalleries() {
+       async function loadGalleries() {
             try {
                 const response = await fetch('gallery.json?v=' + new Date().getTime());
                 const images = await response.json();
@@ -144,40 +144,45 @@
                 const content = document.getElementById('dynamic-content');
                 const aboutLink = document.getElementById('link-about');
 
-                // Raggruppa per categoria
+                // Pulizia contenuti precedenti
+                content.innerHTML = '';
+
                 const categories = {};
                 images.forEach(imgName => {
-                    const category = imgName.split(/[ -]/)[0]; 
+                    // Prende la prima parola del nome file come categoria
+                    const category = imgName.split(/[ ( -]/)[0]; 
                     if (!categories[category]) categories[category] = [];
                     categories[category].push(imgName);
                 });
 
-                // Genera Menu e Sezioni
                 Object.keys(categories).forEach((cat, index) => {
                     const catID = cat.toLowerCase();
+                    
+                    // Crea link se non esiste già
+                    if (!document.getElementById(`link-${catID}`)) {
+                        const a = document.createElement('a');
+                        a.href = `#${catID}`;
+                        a.textContent = cat;
+                        a.id = `link-${catID}`;
+                        nav.insertBefore(a, aboutLink);
+                    }
 
-                    // Crea Link
-                    const a = document.createElement('a');
-                    a.href = `#${catID}`;
-                    a.textContent = cat;
-                    nav.insertBefore(a, aboutLink);
-
-                    // Crea Sezione
                     const section = document.createElement('section');
                     section.id = catID;
                     section.className = 'section-container';
                     
-                    // Mostra la prima (Street) all'avvio
+                    // Forza visibilità per la prima categoria (Street)
                     if (index === 0 && !window.location.hash) {
-                        section.classList.add('active');
+                        section.style.display = 'block';
                     }
-                    
-                    const gridClass = (cat === 'Other') ? 'masonry-grid' : 'gallery-grid';
-                    section.innerHTML = `<h2 class="section-title">${cat}</h2><div class="${gridClass}"></div>`;
-                    
-                    content.appendChild(section);
-                    const grid = section.querySelector('div');
 
+                    const isMasonry = (catID === 'other');
+                    const gridClass = isMasonry ? 'masonry-grid' : 'gallery-grid';
+                    
+                    section.innerHTML = `<h2 class="section-title">${cat}</h2><div class="${gridClass}"></div>`;
+                    content.appendChild(section);
+                    
+                    const grid = section.querySelector('div');
                     categories[cat].forEach(imgName => {
                         const item = document.createElement('div');
                         item.className = 'gallery-item';
@@ -186,12 +191,10 @@
                         grid.appendChild(item);
                     });
                 });
-
             } catch (err) {
                 console.error("Errore:", err);
             }
         }
-
         function openLightbox(src) {
             const lb = document.getElementById('lightbox');
             const lbImg = document.getElementById('lightbox-img');
@@ -213,3 +216,4 @@
     </script>
 </body>
 </html>
+
