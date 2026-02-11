@@ -12,29 +12,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Fotografia | Luca Primavesi</title>
     <style>
+        /* STILI BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica Neue', sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
+        
         header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
         h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px; }
         nav { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         nav a { text-decoration: none; color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; cursor: pointer; }
         nav a:hover, nav a.active { color: #000; font-weight: bold; }
         
+        /* LAYOUT SEZIONI */
         .section-container { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
         .section-title { text-align: center; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
 
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); grid-gap: 20px; }
-        .gallery-item { overflow: hidden; background-color: #eee; cursor: pointer; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); display: block; }
+        /* GRIGLIA MASONRY (UNIVERSALE) */
+        .gallery-grid {
+            display: block;
+            column-count: 2;
+            column-gap: 20px;
+            width: 100%;
+        }
+        
+        .gallery-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #eee;
+            cursor: pointer;
+            overflow: hidden;
+            break-inside: avoid; /* Impedisce alla foto di spezzarsi tra colonne */
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: auto; /* Mantiene proporzioni originali */
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
         .gallery-item img:hover { transform: scale(1.03); }
 
+        /* RESPONSIVE MASONRY */
+        @media (min-width: 1024px) { .gallery-grid { column-count: 3; } }
+        @media (max-width: 768px) { .gallery-grid { column-count: 2; } }
+        @media (max-width: 500px) { .gallery-grid { column-count: 1; } }
+
+        /* ABOUT CONTENT */
         .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
         .about-content h2 { font-weight: 300; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         .about-content h3 { margin-top:25px; font-weight:400; text-transform:uppercase; font-size:1.1rem; color: #111; }
-        .about-content p { margin-bottom: 20px; color: #555; }
+        .about-content p { margin-bottom: 20px; color: #555; text-align: justify; }
         
-        #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; cursor: zoom-out; }
-        #lightbox img { max-width: 90%; max-height: 90%; }
+        /* LIGHTBOX */
+        #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        
         footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
     </style>
 </head>
@@ -75,84 +108,4 @@
 
     <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img"></div>
 
-    <footer>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.</footer>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        async function loadGalleries() {
-            try {
-                const response = await fetch('gallery.json?v=' + new Date().getTime());
-                const images = await response.json();
-                const nav = document.getElementById('main-nav');
-                const content = document.getElementById('dynamic-content');
-                const aboutLink = document.getElementById('link-about');
-
-                const categories = {};
-                images.forEach(imgName => {
-                    // Divide al primo trattino '-' per ottenere il nome categoria intero
-                    let parts = imgName.split('-');
-                    let rawCat = (parts.length > 1) ? parts[0].trim() : "Other";
-                    
-                    if (!categories[rawCat]) categories[rawCat] = [];
-                    categories[rawCat].push(imgName);
-                });
-
-                Object.keys(categories).forEach((cat, index) => {
-                    const catID = cat.replace(/\s+/g, '-').toLowerCase();
-
-                    const a = document.createElement('a');
-                    a.href = `#${catID}`;
-                    a.textContent = cat;
-                    a.className = 'nav-item';
-                    a.id = `nav-${catID}`;
-                    nav.insertBefore(a, aboutLink);
-
-                    const section = document.createElement('section');
-                    section.id = catID;
-                    section.className = 'section-container';
-                    section.innerHTML = `<h2 class="section-title">${cat}</h2><div class="gallery-grid"></div>`;
-                    content.appendChild(section);
-
-                    const grid = section.querySelector('.gallery-grid');
-                    categories[cat].forEach(imgName => {
-                        const div = document.createElement('div');
-                        div.className = 'gallery-item';
-                        div.onclick = () => { 
-                            document.getElementById('lightbox-img').src = `img/${imgName}`; 
-                            document.getElementById('lightbox').style.display='flex'; 
-                        };
-                        div.innerHTML = `<img src="img/${imgName}" loading="lazy" alt="${cat}">`;
-                        grid.appendChild(div);
-                    });
-
-                    // Mostra Street (o la prima categoria) all'avvio
-                    if (index === 0 && !window.location.hash) {
-                        section.style.display = 'block';
-                        a.classList.add('active');
-                    }
-                });
-                
-                handleHashChange();
-            } catch (e) { console.error("Errore caricamento galleria:", e); }
-        }
-
-        function handleHashChange() {
-            const hash = window.location.hash;
-            if (!hash) return;
-            
-            document.querySelectorAll('.section-container').forEach(s => s.style.display = 'none');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            const target = document.querySelector(hash);
-            const navItem = document.querySelector(`a[href="${hash}"]`);
-            
-            if (target) target.style.display = 'block';
-            if (navItem) navItem.classList.add('active');
-        }
-
-        window.addEventListener('hashchange', handleHashChange);
-        window.addEventListener('DOMContentLoaded', loadGalleries);
-    </script>
-</body>
-</html>
+    <footer>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.
