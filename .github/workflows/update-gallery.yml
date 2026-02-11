@@ -1,37 +1,42 @@
-name: Update Gallery Index
+name: Auto Update Gallery JSON
 
 on:
   push:
     paths:
-      - 'img/**'
-  workflow_dispatch:
+      - 'img/**' # Il robot si sveglia solo quando aggiungi foto
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Scarica tutta la cronologia per evitare conflitti
 
-      - name: Generate gallery.json
-        run: |
-          echo "[" > gallery.json
-          # Elenca i file nelle cartelle img, filtrando per estensioni comuni
-          find img -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -exec basename {} \; | sed 's/.*/  "&",/' >> gallery.json
-          # Rimuove l'ultima virgola per rendere il JSON valido
-          sed -i '$ s/,$//' gallery.json
-          echo "]" >> gallery.json
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-      - name: Commit and push changes
+      - name: Run gallery generator
+        run: python generate_gallery.py
+
+      - name: Commit and Push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Aggiunge il file JSON aggiornato
           git add gallery.json
           
-          # La riga magica: verifica se esiste un CNAME e lo preserva
-          if [ -f CNAME ]; then git add CNAME; fi
-          
-          git commit -m "Update gallery index [skip ci]" || echo "No changes to commit"
-          git push
+          # LA RIGA MAGICA: Forza il mantenimento del CNAME se esiste
+          if [ -f CNAME ]; then
+            git add CNAME
+          fi
+
+          # Esegue il commit solo se ci sono cambiamenti reali
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update gallery.json e preservazione CNAME" && git push)
