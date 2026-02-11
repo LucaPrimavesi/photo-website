@@ -12,22 +12,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Fotografia | Luca Primavesi</title>
     <style>
-        /* RESET E STILE BASE */
+        /* --- STILE GENERALE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica Neue', sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
         
-        /* HEADER E NAVIGAZIONE */
         header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
         h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px; }
         nav { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         nav a { text-decoration: none; color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; cursor: pointer; }
-        nav a:hover, nav a.active { color: #000; font-weight: bold; }
+        nav a:hover, nav a.active { color: #000; font-weight: bold; border-bottom: 1px solid #000; }
         
-        /* LAYOUT SEZIONI */
+        /* --- LAYOUT SEZIONI --- */
         .section-container { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
         .section-title { text-align: center; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* GRIGLIA MASONRY UNIVERSALE */
+        /* --- GRIGLIA MASONRY (Mosaico) --- */
         .gallery-grid {
             display: block;
             column-count: 2;
@@ -42,7 +41,7 @@
             background-color: #eee;
             cursor: pointer;
             overflow: hidden;
-            break-inside: avoid; /* Impedisce alla foto di spezzarsi tra colonne */
+            break-inside: avoid; /* Fondamentale per non spezzare le foto */
         }
         
         .gallery-item img {
@@ -54,18 +53,18 @@
         
         .gallery-item img:hover { transform: scale(1.03); }
 
-        /* RESPONSIVE MASONRY */
+        /* Responsive: Numero di colonne in base allo schermo */
         @media (min-width: 1024px) { .gallery-grid { column-count: 3; } }
         @media (max-width: 768px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 500px) { .gallery-grid { column-count: 1; } }
 
-        /* ABOUT CONTENT */
+        /* --- ABOUT CONTENT --- */
         .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
         .about-content h2 { font-weight: 300; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .about-content h3 { margin-top:25px; font-weight:400; text-transform:uppercase; font-size:1.1rem; color: #111; }
+        .about-content h3 { margin-top:30px; font-weight:400; text-transform:uppercase; font-size:1.1rem; color: #111; }
         .about-content p { margin-bottom: 20px; color: #555; text-align: justify; }
         
-        /* LIGHTBOX */
+        /* --- LIGHTBOX (Ingrandimento) --- */
         #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; cursor: zoom-out; }
         #lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; }
         
@@ -83,7 +82,8 @@
         </nav>
     </header>
 
-    <main id="dynamic-content"></main>
+    <main id="dynamic-content">
+        </main>
 
     <section id="about" class="section-container">
         <div class="about-content">
@@ -107,4 +107,105 @@
         </div>
     </section>
 
-    <div id="lightbox" onclick="this.style.display
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img"></div>
+
+    <footer>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.</footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        async function loadGalleries() {
+            try {
+                // Fetch del JSON con parametro anti-cache
+                const response = await fetch('gallery.json?v=' + new Date().getTime());
+                const images = await response.json();
+                
+                const nav = document.getElementById('main-nav');
+                const content = document.getElementById('dynamic-content');
+                const aboutLink = document.getElementById('link-about');
+
+                const categories = {};
+                
+                // LOGICA DI RAGGRUPPAMENTO MIGLIORATA
+                images.forEach(imgName => {
+                    // Divide al trattino e pulisce bene gli spazi extra
+                    let parts = imgName.split('-');
+                    let rawCat = (parts.length > 1) ? parts[0].trim() : "Other";
+                    
+                    if (!categories[rawCat]) categories[rawCat] = [];
+                    categories[rawCat].push(imgName);
+                });
+
+                // CREAZIONE DINAMICA DI MENU E SEZIONI
+                Object.keys(categories).forEach((cat, index) => {
+                    const catID = cat.replace(/\s+/g, '-').toLowerCase();
+
+                    // Crea Link Menu
+                    const a = document.createElement('a');
+                    a.href = `#${catID}`;
+                    a.textContent = cat;
+                    a.className = 'nav-item';
+                    a.id = `nav-link-${catID}`;
+                    nav.insertBefore(a, aboutLink);
+
+                    // Crea Sezione Galleria
+                    const section = document.createElement('section');
+                    section.id = catID;
+                    section.className = 'section-container';
+                    section.innerHTML = `<h2 class="section-title">${cat}</h2><div class="gallery-grid"></div>`;
+                    content.appendChild(section);
+
+                    const grid = section.querySelector('.gallery-grid');
+                    
+                    // Inserimento Immagini
+                    categories[cat].forEach(imgName => {
+                        const div = document.createElement('div');
+                        div.className = 'gallery-item';
+                        div.onclick = () => { 
+                            document.getElementById('lightbox-img').src = `img/${imgName}`; 
+                            document.getElementById('lightbox').style.display='flex'; 
+                        };
+                        div.innerHTML = `<img src="img/${imgName}" loading="lazy" alt="${cat}">`;
+                        grid.appendChild(div);
+                    });
+
+                    // Se non c'è un hash nell'URL, apri Street (la prima categoria)
+                    if (index === 0 && !window.location.hash) {
+                        section.style.display = 'block';
+                        a.classList.add('active');
+                    }
+                });
+                
+                // Gestisce il link diretto a una categoria se presente nell'URL
+                handleHashChange();
+                
+            } catch (e) { 
+                console.error("Errore nel caricamento della galleria:", e); 
+            }
+        }
+
+        function handleHashChange() {
+            const hash = window.location.hash;
+            if (!hash || hash === '#') return;
+            
+            // Nasconde tutto
+            document.querySelectorAll('.section-container').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('about').style.display = 'none';
+            document.getElementById('link-about').classList.remove('active');
+            
+            // Mostra la sezione corretta
+            const target = document.querySelector(hash);
+            const navItem = document.querySelector(`a[href="${hash}"]`);
+            
+            if (target) {
+                target.style.display = 'block';
+                if (navItem) navItem.classList.add('active');
+            }
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+        window.addEventListener('DOMContentLoaded', loadGalleries);
+    </script>
+</body>
+</html>  
