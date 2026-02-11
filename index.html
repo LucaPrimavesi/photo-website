@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PLBTER0QQF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-PLBTER0QQF');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLBTER0QQF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PLBTER0QQF');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Fotografia | Luca Primavesi</title>
@@ -21,27 +20,38 @@
         /* HEADER E NAVIGAZIONE */
         header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
         h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px; }
-        nav { margin-top: 20px; }
-        nav a { margin: 0 15px; text-decoration: none; color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        nav { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        nav a { text-decoration: none; color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         nav a:hover { color: #000; }
 
         /* LOGICA VISUALIZZAZIONE SEZIONI */
         .section-container { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
-        body:not(:has(:target)) #street { display: block; }
         .section-container:target { display: block !important; }
 
         .section-title { text-align: center; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* GRIGLIA STANDARD (Street, Portrait, Archeo) */
+        /* GRIGLIE */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             grid-gap: 20px;
         }
+        
+        .masonry-grid {
+            display: block; 
+            column-count: 2;
+            column-gap: 20px;
+        }
+        .masonry-grid .gallery-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+            break-inside: avoid;
+        }
+
         .gallery-item {
             overflow: hidden;
             background-color: #eee;
-            aspect-ratio: 3 / 2;
             cursor: pointer;
         }
         .gallery-item img {
@@ -53,29 +63,13 @@
         }
         .gallery-item img:hover { transform: scale(1.03); }
 
-        /* GRIGLIA MASONRY (Sezione Other) */
-        #grid-Other {
-            display: block; 
-            column-count: 2;
-            column-gap: 20px;
-        }
-        #grid-Other .gallery-item {
-            display: inline-block;
-            width: 100%;
-            margin-bottom: 20px;
-            aspect-ratio: auto;
-            background-color: transparent;
-            break-inside: avoid;
-        }
-        #grid-Other .gallery-item img { height: auto; object-fit: contain; }
-
-        /* STILE ABOUT ME */
+        /* ABOUT ME STYLE */
         .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; text-align: left; }
         .about-content h2 { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         .about-content h3 { font-weight: 400; margin: 30px 0 15px 0; text-transform: uppercase; font-size: 1.2rem; color: #111; }
         .about-content p { margin-bottom: 20px; color: #555; font-size: 1.1rem; }
 
-        /* LIGHTBOX (Zoom foto) */
+        /* LIGHTBOX */
         #lightbox {
             display: none;
             position: fixed;
@@ -87,141 +81,6 @@
             align-items: center;
             cursor: zoom-out;
         }
-        #lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            border-radius: 2px;
-        }
+        #lightbox img { max-width: 90%; max-height: 90%; border-radius: 2px; }
 
-        footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
-        .nav-hidden { display: none; }
-
-        @media (max-width: 600px) {
-            header { padding: 40px 20px; }
-            nav a { display: block; margin: 10px 0; }
-            .gallery-grid { grid-template-columns: 1fr; }
-            #grid-Other { column-count: 1; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>LUCA PRIMAVESI</h1>
-        <p>Photographer | Uncovering the stories that lie beneath</p>
-        <nav id="main-nav">
-            <a href="#street" id="link-Street">Street</a>
-            <a href="#portrait" id="link-Portrait">Portrait</a>
-            <a href="#other" id="link-Other">Other Projects</a>
-            <a href="#archeo" id="link-Archeo">Archeo</a>
-            <a href="#about">About Me</a>
-            <a href="mailto:luca@primavesi.it">Contact</a>
-        </nav>
-    </header>
-
-    <section id="street" class="section-container">
-        <h2 class="section-title">Street Photography</h2>
-        <div id="grid-Street" class="gallery-grid"></div>
-    </section>
-
-    <section id="portrait" class="section-container">
-        <h2 class="section-title">Portraits</h2>
-        <div id="grid-Portrait" class="gallery-grid"></div>
-    </section>
-
-    <section id="other" class="section-container">
-        <h2 class="section-title">Other Projects</h2>
-        <div id="grid-Other"></div>
-    </section>
-
-    <section id="archeo" class="section-container">
-        <h2 class="section-title">Archaeological Works</h2>
-        <div id="grid-Archeo" class="gallery-grid"></div>
-    </section>
-
-    <section id="about" class="section-container">
-        <div class="about-content">
-            <h2>About Me</h2>
-            <p>As a photographer, I am on a constant journey of discovery, searching for beauty in all its diverse forms. My unique perspective is shaped by my experience of working on archaeological excavations, where I document the meticulous process of discovery and the artefacts that emerge from the earth. This professional background has taught me to look beneath the surface and to view every modern scene as a layer of history in the making.</p>
-            <h3>The Geometry of Silence</h3>
-            <p>This 'archaeological' precision carries over into my monochrome street photography. I am drawn to the profound depth found within the infinite shades of grey — a palette that enables me to eliminate the distractions of colour. In my photographs, I often seek to create a metaphysical atmosphere, transforming ordinary street corners into spaces for quiet contemplation.</p>
-            <p>I am particularly fascinated by public spaces. When I capture these large communal environments inhabited by a solitary figure, I see a poignant metaphor for contemporary life: although we are connected by shared structures, we are often alone on our journeys.</p>
-            <h3>The Human Connection</h3>
-            <p>My work is also defined by the people I meet. I am passionate about unstaged portraits, especially those taken during people's daily work, as a nod to the teamwork and dedication I witness on site. My approach is simple: I ask for a smile. These brief, authentic interactions have evolved into a dedicated collection that honours the dignity of the present moment.</p>
-            <h3>New Perspectives & Ethos</h3>
-            <p>I am currently shaping a new project focusing on disabled people, capturing them in meaningful poses in their everyday lives. To me, these images serve as a powerful reminder that life should always be lived to the fullest.</p>
-            <p>Across all my projects, from ancient excavation sites to the shadows of city streets, I strive to maintain an empathetic and occasionally ironic view of life. I don't just record what is there; I uncover the stories that lie beneath.</p>
-            <p style="margin-top: 40px;"><strong>Contact:</strong> <a href="mailto:luca@primavesi.it" style="color: #333;">luca@primavesi.it</a></p>
-        </div>
-    </section>
-
-    <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lightbox-img" src="" alt="Zoom">
-    </div>
-
-    <footer>
-        &copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved. <br>
-        <a href="mailto:luca@primavesi.it" style="color: #aaa; text-decoration: none;">luca@primavesi.it</a>
-    </footer>
-
-    <script>
-        // Gestione automatica anno Copyright
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        async function loadGalleries() {
-            try {
-                const response = await fetch('gallery.json?v=' + new Date().getTime());
-                if (!response.ok) throw new Error("File gallery.json non trovato");
-                const images = await response.json();
-
-                const grids = {
-                    'Street': document.getElementById('grid-Street'),
-                    'Portrait': document.getElementById('grid-Portrait'),
-                    'Other': document.getElementById('grid-Other'),
-                    'Archeo': document.getElementById('grid-Archeo'),
-                };
-
-                Object.values(grids).forEach(g => g.innerHTML = '');
-
-                images.forEach(imgName => {
-                    const category = Object.keys(grids).find(cat => imgName.startsWith(cat));
-                    if (category) {
-                        const item = document.createElement('div');
-                        item.className = 'gallery-item';
-                        item.onclick = () => openLightbox(`img/${imgName}`);
-                        item.innerHTML = `<img src="img/${imgName}" alt="Luca Primavesi Photography" loading="lazy">`;
-                        grids[category].appendChild(item);
-                    }
-                });
-
-                Object.keys(grids).forEach(cat => {
-                    const grid = grids[cat];
-                    const section = grid.parentElement;
-                    const navLink = document.getElementById('link-' + cat);
-
-                    if (grid.children.length === 0) {
-                        section.style.display = 'none';
-                        if (navLink) navLink.classList.add('nav-hidden');
-                    } else {
-                        if (navLink) navLink.classList.remove('nav-hidden');
-                    }
-                });
-
-            } catch (err) {
-                console.error("Errore:", err);
-            }
-        }
-
-        function openLightbox(src) {
-            const lb = document.getElementById('lightbox');
-            const lbImg = document.getElementById('lightbox-img');
-            lbImg.src = src;
-            lb.style.display = 'flex';
-        }
-
-        window.addEventListener('DOMContentLoaded', loadGalleries);
-    </script>
-</body>
-</html>
-
+        footer { text-align: center; padding: 60px 40
