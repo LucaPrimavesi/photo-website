@@ -12,10 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Fotografia | Luca Primavesi</title>
     <style>
-        /* STILI BASE */
+        /* RESET E STILE BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica Neue', sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
         
+        /* HEADER E NAVIGAZIONE */
         header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
         h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 10px; }
         nav { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
@@ -28,31 +29,35 @@
 
         /* GRIGLIA MASONRY UNIVERSALE */
         .gallery-grid {
-            display: block; /* Deve essere block per usare le colonne */
+            display: block;
             column-count: 2;
             column-gap: 20px;
             width: 100%;
         }
         
         .gallery-item {
-            display: inline-block; /* Fondamentale per Masonry */
+            display: inline-block;
             width: 100%;
             margin-bottom: 20px;
-            break-inside: avoid; /* Impedisce che una foto si tagli tra due colonne */
             background-color: #eee;
             cursor: pointer;
+            overflow: hidden;
+            break-inside: avoid; /* Impedisce alla foto di spezzarsi tra colonne */
         }
-
+        
         .gallery-item img {
             width: 100%;
-            height: auto; /* Mantiene le proporzioni originali (verticali vs orizzontali) */
+            height: auto; 
             display: block;
-            transition: transform 0.6s ease;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        
+        .gallery-item img:hover { transform: scale(1.03); }
 
-        /* Responsive */
+        /* RESPONSIVE MASONRY */
         @media (min-width: 1024px) { .gallery-grid { column-count: 3; } }
-        @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
+        @media (max-width: 768px) { .gallery-grid { column-count: 2; } }
+        @media (max-width: 500px) { .gallery-grid { column-count: 1; } }
 
         /* ABOUT CONTENT */
         .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
@@ -102,7 +107,4 @@
         </div>
     </section>
 
-    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img"></div>
-
-    <footer>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.
-
+    <div id="lightbox" onclick="this.style.display
