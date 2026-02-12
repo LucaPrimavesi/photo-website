@@ -78,17 +78,14 @@
     <footer>
         <p>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.</p>
         <div class="legal-links">
-            <a href="https://www.iubenda.com/privacy-policy/24564243" class="iubenda-white iubenda-noiframe iubenda-embed" title="Privacy Policy">Privacy Policy</a>
-            <a href="https://www.iubenda.com/privacy-policy/24564243/cookie-policy" class="iubenda-white iubenda-noiframe iubenda-embed" title="Cookie Policy">Cookie Policy</a>
+            <script type="text/javascript" src="https://embeds.iubenda.com/widgets/9cf6b5cd-0ec7-4ab6-baa3-0315683515e5.js"></script>
         </div>
     </footer>
-
-    <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // LA TUA LOGICA ORIGINALE DELLE GALLERIE
+        // LOGICA GALLERIE (IDENTICA ALL'ORIGINALE)
         async function loadGalleries() {
             try {
                 const response = await fetch('gallery.json?v=' + new Date().getTime());
@@ -168,6 +165,7 @@
         window.addEventListener('hashchange', handleHashChange);
         window.addEventListener('DOMContentLoaded', loadGalleries);
     </script>
+
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "875364be8cba4459a701b3c47e7edb43"}'></script>
 </body>
 </html>
