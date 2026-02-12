@@ -3,16 +3,16 @@
 <head>
     <script type="text/javascript">
     var _iub = _iub || [];
-    _iub.csConfiguration = {"siteId":3915152,"cookiePolicyId":24564243, "lang":"it", "banner":{ "acceptButtonDisplay":true,"customizeButtonDisplay":true,"position":"float-top-center","acceptButtonColor":"#0073CE","acceptButtonCaptionColor":"white","customizeButtonColor":"#DADADA","customizeButtonCaptionColor":"#4D4D4D","rejectButtonColor":"#0073CE","rejectButtonCaptionColor":"white","textColor":"black","backgroundColor":"white" }};
+    _iub.csConfiguration = {"siteId":3915152,"cookiePolicyId":26484720, "lang":"it", "banner":{ "acceptButtonDisplay":true,"customizeButtonDisplay":true,"position":"float-top-center","acceptButtonColor":"#0073CE","acceptButtonCaptionColor":"white","customizeButtonColor":"#DADADA","customizeButtonCaptionColor":"#4D4D4D","rejectButtonColor":"#0073CE","rejectButtonCaptionColor":"white","textColor":"black","backgroundColor":"white" }};
     </script>
     <script type="text/javascript" src="https://cs.iubenda.com/autoblocking/3915152.js"></script>
     <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Fotografia | Luca Primavesi</title>
     <style>
-        /* --- IL TUO STILE ORIGINALE --- */
+        /* --- IL TUO STILE ORIGINALE RIMASTO INALTERATO --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica Neue', sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
         header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
@@ -36,7 +36,11 @@
         #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; cursor: zoom-out; }
         #lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; }
         footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
+        .legal-links { margin-top: 10px; }
+        .legal-links a { color: #aaa; text-decoration: none; margin: 0 10px; transition: 0.3s; }
+        .legal-links a:hover { color: #333; }
     </style>
+    <script type="text/javascript" src="https://embeds.iubenda.com/widgets/9cf6b5cd-0ec7-4ab6-baa3-0315683515e5.js"></script>
 </head>
 <body>
 
@@ -78,14 +82,17 @@
     <footer>
         <p>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.</p>
         <div class="legal-links">
-            <script type="text/javascript" src="https://embeds.iubenda.com/widgets/9cf6b5cd-0ec7-4ab6-baa3-0315683515e5.js"></script>
+            <a href="https://www.iubenda.com/privacy-policy/26484720" class="iubenda-white iubenda-noiframe iubenda-embed" title="Privacy Policy">Privacy Policy</a>
+            <span>|</span>
+            <a href="https://www.iubenda.com/privacy-policy/26484720/cookie-policy" class="iubenda-white iubenda-noiframe iubenda-embed" title="Cookie Policy">Cookie Policy</a>
         </div>
     </footer>
+
+    <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // LOGICA GALLERIE (IDENTICA ALL'ORIGINALE)
         async function loadGalleries() {
             try {
                 const response = await fetch('gallery.json?v=' + new Date().getTime());
@@ -165,7 +172,5 @@
         window.addEventListener('hashchange', handleHashChange);
         window.addEventListener('DOMContentLoaded', loadGalleries);
     </script>
-
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "875364be8cba4459a701b3c47e7edb43"}'></script>
-</body>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "875364be8cba4459a701b3c47e7edb43"}'></script></body>
 </html>
