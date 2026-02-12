@@ -6,7 +6,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-PLBTER0QQF', { 'anonymize_ip': true }); // Rende il cookie meno invasivo
+      gtag('config', 'G-PLBTER0QQF', { 'anonymize_ip': true });
     </script>
     
     <meta charset="UTF-8">
@@ -37,6 +37,7 @@
         @media (max-width: 768px) { .gallery-grid { column-count: 2; } }
         @media (max-width: 500px) { .gallery-grid { column-count: 1; } }
 
+        /* --- ABOUT CONTENT --- */
         .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
         .about-content h2 { font-weight: 300; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         .about-content h3 { margin-top:30px; font-weight:400; text-transform:uppercase; font-size:1.1rem; color: #111; }
@@ -45,7 +46,6 @@
         #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; cursor: zoom-out; }
         #lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; }
         
-        /* --- FOOTER & LEGAL --- */
         footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
         .legal-links { margin-top: 10px; }
         .legal-links a { color: #aaa; text-decoration: none; margin: 0 10px; transition: 0.3s; }
@@ -68,8 +68,22 @@
     <section id="about" class="section-container">
         <div class="about-content">
             <h2>About Me</h2>
-            <p>As a photographer, I am on a constant journey of discovery, searching for beauty in all its diverse forms...</p>
-            <p><strong>Contact:</strong> <a href="mailto:luca@primavesi.it" style="color: #333; text-decoration: none;">luca@primavesi.it</a></p>
+            <p>As a photographer, I am on a constant journey of discovery, searching for beauty in all its diverse forms. My unique perspective is shaped by my experience of working on archaeological excavations, where I document the meticulous process of discovery and the artefacts that emerge from the earth. This professional background has taught me to look beneath the surface and to view every modern scene as a layer of history in the making.</p>
+            
+            <h3>The Geometry of Silence</h3>
+            <p>This 'archaeological' precision carries over into my monochrome street photography. I am drawn to the profound depth found within the infinite shades of grey — a palette that enables me to eliminate the distractions of colour. In my photographs, I often seek to create a metaphysical atmosphere, transforming ordinary street corners into spaces for quiet contemplation.</p>
+            <p>I am particularly fascinated by public spaces. When I capture these large communal environments inhabited by a solitary figure, I see a poignant metaphor for contemporary life: although we are connected by shared structures, we are often alone on our journeys.</p>
+            
+            <h3>The Human Connection</h3>
+            <p>My work is also defined by the people I meet. I am passionate about unstaged portraits, especially those taken during people's daily work, as a nod to the teamwork and dedication I witness on site. My approach is simple: I ask for a smile. These brief, authentic interactions have evolved into a dedicated collection that honours the dignity of the present moment.</p>
+            
+            <h3>New Perspectives & Ethos</h3>
+            <p>I am currently shaping a new project focusing on disabled people, capturing them in meaningful poses in their everyday lives. To me, these images serve as a powerful reminder that life should always be lived to the fullest.</p>
+            <p>Across all my projects, from ancient excavation sites to the shadows of city streets, I strive to maintain an empathetic and occasionally ironic view of life. I don't just record what is there; I uncover the stories that lie beneath.</p>
+            
+            <p style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                <strong>Contact:</strong> <a href="mailto:luca@primavesi.it" style="color: #333; text-decoration: none;">luca@primavesi.it</a>
+            </p>
         </div>
     </section>
 
@@ -143,16 +157,27 @@
 
         function handleHashChange() {
             const hash = window.location.hash;
-            if (!hash || hash === '#') return;
             document.querySelectorAll('.section-container').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('about').style.display = 'none';
-            document.getElementById('link-about').classList.remove('active');
-            const target = document.querySelector(hash);
-            const navItem = document.querySelector(`a[href="${hash}"]`);
-            if (target) {
-                target.style.display = 'block';
-                if (navItem) navItem.classList.add('active');
+            
+            if (hash === '#about') {
+                document.getElementById('about').style.display = 'block';
+                document.getElementById('link-about').classList.add('active');
+            } else if (hash && hash !== '#') {
+                const target = document.querySelector(hash);
+                const navItem = document.querySelector(`a[href="${hash}"]`);
+                if (target) {
+                    target.style.display = 'block';
+                    if (navItem) navItem.classList.add('active');
+                }
+            } else {
+                // Default alla prima sezione se non c'è hash
+                const firstSection = document.querySelector('.section-container');
+                const firstLink = document.querySelector('.nav-item');
+                if (firstSection && firstLink) {
+                    firstSection.style.display = 'block';
+                    firstLink.classList.add('active');
+                }
             }
         }
         window.addEventListener('hashchange', handleHashChange);
