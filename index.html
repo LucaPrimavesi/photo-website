@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <script type="text/javascript">
     var _iub = _iub || [];
@@ -10,8 +10,9 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Portfolio | Luca Primavesi</title>
+    <title>Portfolio Fotografia | Luca Primavesi</title>
     <style>
+        /* --- IL TUO STILE ORIGINALE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica Neue', sans-serif; background-color: #fafafa; color: #333; line-height: 1.6; }
         header { padding: 60px 40px; text-align: center; background: white; border-bottom: 1px solid #eee; }
@@ -19,125 +20,151 @@
         nav { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         nav a { text-decoration: none; color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; cursor: pointer; }
         nav a:hover, nav a.active { color: #000; font-weight: bold; border-bottom: 1px solid #000; }
-        .section-container { display: none; padding: 40px; max-width: 1200px; margin: 0 auto; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .photo-card { background: white; padding: 10px; border: 1px solid #eee; transition: 0.3s; }
-        .photo-card img { width: 100%; height: auto; display: block; filter: grayscale(20%); transition: 0.5s; }
-        .photo-card:hover img { filter: grayscale(0%); }
-        #about { max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: left; }
-        .about-content h2 { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .about-content h3 { font-weight: 400; margin: 30px 0 10px 0; color: #000; }
-        .about-content p { margin-bottom: 15px; color: #555; }
-        footer { text-align: center; padding: 40px; font-size: 0.8rem; color: #aaa; border-top: 1px solid #eee; margin-top: 40px; }
+        .section-container { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
+        .gallery-grid { display: block; column-count: 2; column-gap: 20px; width: 100%; }
+        .gallery-item { display: inline-block; width: 100%; margin-bottom: 20px; background-color: #eee; cursor: pointer; overflow: hidden; break-inside: avoid; }
+        .gallery-item img { width: 100%; height: auto; display: block; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .gallery-item img:hover { transform: scale(1.03); }
+        @media (min-width: 1024px) { .gallery-grid { column-count: 3; } }
+        @media (max-width: 768px) { .gallery-grid { column-count: 2; } }
+        @media (max-width: 500px) { .gallery-grid { column-count: 1; } }
+        .about-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .about-content h2 { font-weight: 300; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .about-content h3 { margin-top:30px; font-weight:400; text-transform:uppercase; font-size:1.1rem; color: #111; }
+        .about-content p { margin-bottom: 20px; color: #555; text-align: justify; }
+        #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        footer { text-align: center; padding: 60px 40px; color: #aaa; font-size: 0.8rem; border-top: 1px solid #eee; margin-top: 40px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Luca Primavesi</h1>
-        <nav id="main-nav"></nav>
+        <h1>LUCA PRIMAVESI</h1>
+        <p>Photographer | Uncovering the stories that lie beneath</p>
+        <nav id="main-nav">
+            <a href="#about" id="link-about">About Me</a>
+            <a href="mailto:luca@primavesi.it">Contact</a>
+        </nav>
     </header>
 
-    <main id="content">
-        <section id="about" class="section-container">
-            <div class="about-content">
-                <h2>About Me</h2>
-                <p>As a photographer, I am on a constant journey of discovery, searching for beauty in all its diverse forms. My unique perspective is shaped by my experience of working on archaeological excavations, where I document the meticulous process of discovery and the artefacts that emerge from the earth. This professional background has taught me to look beneath the surface and to view every modern scene as a layer of history in the making.</p>
-                
-                <h3>The Geometry of Silence</h3>
-                <p>This 'archaeological' precision carries over into my monochrome street photography. I am drawn to the profound depth found within the infinite shades of grey — a palette that enables me to eliminate the distractions of colour. In my photographs, I often seek to create a metaphysical atmosphere, transforming ordinary street corners into spaces for quiet contemplation.</p>
-                <p>I am particularly fascinated by public spaces. When I capture these large communal environments inhabited by a solitary figure, I see a poignant metaphor for contemporary life: although we are connected by shared structures, we are often alone on our journeys.</p>
-                
-                <h3>The Human Connection</h3>
-                <p>My work is also defined by the people I meet. I am passionate about unstaged portraits, especially those taken during people's daily work, as a nod to the teamwork and dedication I witness on site. My approach is simple: I ask for a smile. These brief, authentic interactions have evolved into a dedicated collection that honours the dignity of the present moment.</p>
-                
-                <h3>New Perspectives & Ethos</h3>
-                <p>I am currently shaping a new project focusing on disabled people, capturing them in meaningful poses in their everyday lives. To me, these images serve as a powerful reminder that life should always be lived to the fullest.</p>
-                <p>Across all my projects, from ancient excavation sites to the shadows of city streets, I strive to maintain an empathetic and occasionally ironic view of life. I don't just record what is there; I uncover the stories that lie beneath.</p>
-                
-                <p style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
-                    <a href="mailto:luca@primavesi.it" style="color: #333; font-weight: bold; text-decoration: none; margin-right: 20px;">Email</a>
-                    <a href="https://instagram.com" target="_blank" style="color: #333; font-weight: bold; text-decoration: none;">Instagram</a>
-                </p>
-            </div>
-        </section>
-    </main>
+    <main id="dynamic-content"></main>
+
+    <section id="about" class="section-container">
+        <div class="about-content">
+            <h2>About Me</h2>
+            <p>As a photographer, I am on a constant journey of discovery, searching for beauty in all its diverse forms. My unique perspective is shaped by my experience of working on archaeological excavations, where I document the meticulous process of discovery and the artefacts that emerge from the earth. This professional background has taught me to look beneath the surface and to view every modern scene as a layer of history in the making.</p>
+            
+            <h3>The Geometry of Silence</h3>
+            <p>This 'archaeological' precision carries over into my monochrome street photography. I am drawn to the profound depth found within the infinite shades of grey — a palette that enables me to eliminate the distractions of colour. In my photographs, I often seek to create a metaphysical atmosphere, transforming ordinary street corners into spaces for quiet contemplation.</p>
+            <p>I am particularly fascinated by public spaces. When I capture these large communal environments inhabited by a solitary figure, I see a poignant metaphor for contemporary life: although we are connected by shared structures, we are often alone on our journeys.</p>
+            
+            <h3>The Human Connection</h3>
+            <p>My work is also defined by the people I meet. I am passionate about unstaged portraits, especially those taken during people's daily work, as a nod to the teamwork and dedication I witness on site. My approach is simple: I ask for a smile. These brief, authentic interactions have evolved into a dedicated collection that honours the dignity of the present moment.</p>
+            
+            <h3>New Perspectives & Ethos</h3>
+            <p>I am currently shaping a new project focusing on disabled people, capturing them in meaningful poses in their everyday lives. To me, these images serve as a powerful reminder that life should always be lived to the fullest.</p>
+            <p>Across all my projects, from ancient excavation sites to the shadows of city streets, I strive to maintain an empathetic and occasionally ironic view of life. I don't just record what is there; I uncover the stories that lie beneath.</p>
+            
+            <p style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                <strong>Contact:</strong> <a href="mailto:luca@primavesi.it" style="color: #333; text-decoration: none;">luca@primavesi.it</a>
+            </p>
+        </div>
+    </section>
+
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img"></div>
 
     <footer>
-        &copy; 2026 Luca Primavesi. All rights reserved. <br>
-        <a href="https://www.iubenda.com/privacy-policy/24564243" class="iubenda-white iubenda-noiframe iubenda-embed" title="Privacy Policy">Privacy Policy</a>
-        <a href="https://www.iubenda.com/privacy-policy/24564243/cookie-policy" class="iubenda-white iubenda-noiframe iubenda-embed" title="Cookie Policy">Cookie Policy</a>
-        <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+        <p>&copy; <span id="year"></span> Luca Primavesi Photography. All rights reserved.</p>
+        <div class="legal-links">
+            <a href="https://www.iubenda.com/privacy-policy/24564243" class="iubenda-white iubenda-noiframe iubenda-embed" title="Privacy Policy">Privacy Policy</a>
+            <a href="https://www.iubenda.com/privacy-policy/24564243/cookie-policy" class="iubenda-white iubenda-noiframe iubenda-embed" title="Cookie Policy">Cookie Policy</a>
+        </div>
     </footer>
 
+    <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+
     <script>
-        // QUI PUOI AGGIUNGERE LE TUE FOTO E GALLERIE
-        const galleries = [
-            { id: 'urban', title: 'Urban Geometry', photos: [
-                'https://images.unsplash.com/photo-1449156059431-787c5d7139b8?auto=format&fit=crop&q=80&w=800',
-                'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800'
-            ]},
-            { id: 'nature', title: 'Nature Silence', photos: [
-                'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&q=80&w=800',
-                'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800'
-            ]}
-        ];
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-        function loadGalleries() {
-            const nav = document.getElementById('main-nav');
-            const main = document.getElementById('content');
-            
-            galleries.forEach(g => {
-                // Crea link menu
-                const link = document.createElement('a');
-                link.href = `#${g.id}`;
-                link.textContent = g.title;
-                link.className = 'nav-item';
-                nav.appendChild(link);
-
-                // Crea sezione galleria
-                const section = document.createElement('section');
-                section.id = g.id;
-                section.className = 'section-container';
-                const grid = document.createElement('div');
-                grid.className = 'gallery-grid';
+        // LA TUA LOGICA ORIGINALE DELLE GALLERIE
+        async function loadGalleries() {
+            try {
+                const response = await fetch('gallery.json?v=' + new Date().getTime());
+                const images = await response.json();
+                const nav = document.getElementById('main-nav');
+                const content = document.getElementById('dynamic-content');
+                const aboutLink = document.getElementById('link-about');
+                const categories = {};
                 
-                g.photos.forEach(p => {
-                    const card = document.createElement('div');
-                    card.className = 'photo-card';
-                    card.innerHTML = `<img src="${p}" alt="${g.title}">`;
-                    grid.appendChild(card);
+                images.forEach(imgName => {
+                    let parts = imgName.split('-');
+                    let rawCat = (parts.length > 1) ? parts[0].trim() : "Other";
+                    if (!categories[rawCat]) categories[rawCat] = [];
+                    categories[rawCat].push(imgName);
                 });
-                
-                section.appendChild(grid);
-                main.insertBefore(section, document.getElementById('about'));
-            });
 
-            // Aggiunge About al menu alla fine
-            const aboutLink = document.createElement('a');
-            aboutLink.href = '#about';
-            aboutLink.id = 'link-about';
-            aboutLink.textContent = 'About';
-            aboutLink.className = 'nav-item';
-            nav.appendChild(aboutLink);
+                Object.keys(categories).forEach((cat, index) => {
+                    const catID = cat.replace(/\s+/g, '-').toLowerCase();
+                    const a = document.createElement('a');
+                    a.href = `#${catID}`;
+                    a.textContent = cat;
+                    a.className = 'nav-item';
+                    a.id = `nav-link-${catID}`;
+                    nav.insertBefore(a, aboutLink);
 
-            handleHashChange();
+                    const section = document.createElement('section');
+                    section.id = catID;
+                    section.className = 'section-container';
+                    section.innerHTML = `<h2 class="section-title">${cat}</h2><div class="gallery-grid"></div>`;
+                    content.appendChild(section);
+
+                    const grid = section.querySelector('.gallery-grid');
+                    categories[cat].forEach(imgName => {
+                        const div = document.createElement('div');
+                        div.className = 'gallery-item';
+                        div.onclick = () => { 
+                            document.getElementById('lightbox-img').src = `img/${imgName}`; 
+                            document.getElementById('lightbox').style.display='flex'; 
+                        };
+                        div.innerHTML = `<img src="img/${imgName}" loading="lazy" alt="${cat}">`;
+                        grid.appendChild(div);
+                    });
+
+                    if (index === 0 && !window.location.hash) {
+                        section.style.display = 'block';
+                        a.classList.add('active');
+                    }
+                });
+                handleHashChange();
+            } catch (e) { console.error("Errore galleria:", e); }
         }
 
         function handleHashChange() {
-            const hash = window.location.hash || `#${galleries[0].id}`;
+            const hash = window.location.hash;
             document.querySelectorAll('.section-container').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
-            const target = document.querySelector(hash);
-            const navItem = document.querySelector(`a[href="${hash}"]`);
-            
-            if (target) {
-                target.style.display = 'block';
-                if (navItem) navItem.classList.add('active');
+            if (hash === '#about') {
+                document.getElementById('about').style.display = 'block';
+                document.getElementById('link-about').classList.add('active');
+            } else if (hash && hash !== '#') {
+                const target = document.querySelector(hash);
+                const navItem = document.querySelector(`a[href="${hash}"]`);
+                if (target) {
+                    target.style.display = 'block';
+                    if (navItem) navItem.classList.add('active');
+                }
+            } else {
+                const firstSection = document.querySelector('.section-container');
+                const firstLink = document.querySelector('.nav-item');
+                if (firstSection && firstLink) {
+                    firstSection.style.display = 'block';
+                    firstLink.classList.add('active');
+                }
             }
         }
-
         window.addEventListener('hashchange', handleHashChange);
         window.addEventListener('DOMContentLoaded', loadGalleries);
     </script>
