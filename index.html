@@ -24,15 +24,10 @@
         .photo-card { background: white; padding: 10px; border: 1px solid #eee; transition: 0.3s; }
         .photo-card img { width: 100%; height: auto; display: block; filter: grayscale(20%); transition: 0.5s; }
         .photo-card:hover img { filter: grayscale(0%); }
-        
-        /* --- STILE ABOUT --- */
         #about { max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: left; }
         .about-content h2 { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .about-content h3 { font-weight: 400; margin: 30px 0 10px 0; color: #000; }
         .about-content p { margin-bottom: 15px; color: #555; }
-        
-        .contact-links { margin-top: 40px; display: flex; justify-content: center; gap: 20px; border-top: 1px solid #eee; padding-top: 20px; }
-        .contact-links a { color: #333; text-decoration: none; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 2px; }
         footer { text-align: center; padding: 40px; font-size: 0.8rem; color: #aaa; border-top: 1px solid #eee; margin-top: 40px; }
     </style>
 </head>
@@ -59,11 +54,11 @@
                 <h3>New Perspectives & Ethos</h3>
                 <p>I am currently shaping a new project focusing on disabled people, capturing them in meaningful poses in their everyday lives. To me, these images serve as a powerful reminder that life should always be lived to the fullest.</p>
                 <p>Across all my projects, from ancient excavation sites to the shadows of city streets, I strive to maintain an empathetic and occasionally ironic view of life. I don't just record what is there; I uncover the stories that lie beneath.</p>
-            </div>
-
-            <div class="contact-links">
-                <a href="mailto:luca@primavesi.it">Email</a>
-                <a href="https://instagram.com" target="_blank">Instagram</a>
+                
+                <p style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                    <a href="mailto:luca@primavesi.it" style="color: #333; font-weight: bold; text-decoration: none; margin-right: 20px;">Email</a>
+                    <a href="https://instagram.com" target="_blank" style="color: #333; font-weight: bold; text-decoration: none;">Instagram</a>
+                </p>
             </div>
         </section>
     </main>
@@ -76,6 +71,7 @@
     </footer>
 
     <script>
+        // QUI PUOI AGGIUNGERE LE TUE FOTO E GALLERIE
         const galleries = [
             { id: 'urban', title: 'Urban Geometry', photos: [
                 'https://images.unsplash.com/photo-1449156059431-787c5d7139b8?auto=format&fit=crop&q=80&w=800',
@@ -90,58 +86,58 @@
         function loadGalleries() {
             const nav = document.getElementById('main-nav');
             const main = document.getElementById('content');
+            
             galleries.forEach(g => {
+                // Crea link menu
                 const link = document.createElement('a');
                 link.href = `#${g.id}`;
                 link.textContent = g.title;
                 link.className = 'nav-item';
                 nav.appendChild(link);
+
+                // Crea sezione galleria
                 const section = document.createElement('section');
                 section.id = g.id;
                 section.className = 'section-container';
                 const grid = document.createElement('div');
                 grid.className = 'gallery-grid';
+                
                 g.photos.forEach(p => {
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     card.innerHTML = `<img src="${p}" alt="${g.title}">`;
                     grid.appendChild(card);
                 });
+                
                 section.appendChild(grid);
                 main.insertBefore(section, document.getElementById('about'));
             });
+
+            // Aggiunge About al menu alla fine
             const aboutLink = document.createElement('a');
             aboutLink.href = '#about';
             aboutLink.id = 'link-about';
             aboutLink.textContent = 'About';
             aboutLink.className = 'nav-item';
             nav.appendChild(aboutLink);
+
             handleHashChange();
         }
 
         function handleHashChange() {
-            const hash = window.location.hash || '#urban';
+            const hash = window.location.hash || `#${galleries[0].id}`;
             document.querySelectorAll('.section-container').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if (hash === '#about') {
-                document.getElementById('about').style.display = 'block';
-                document.getElementById('link-about').classList.add('active');
-            } else if (hash && hash !== '#') {
-                const target = document.querySelector(hash);
-                const navItem = document.querySelector(`a[href="${hash}"]`);
-                if (target) {
-                    target.style.display = 'block';
-                    if (navItem) navItem.classList.add('active');
-                }
-            } else {
-                const firstSection = document.querySelector('.section-container');
-                const firstLink = document.querySelector('.nav-item');
-                if (firstSection && firstLink) {
-                    firstSection.style.display = 'block';
-                    firstLink.classList.add('active');
-                }
+            
+            const target = document.querySelector(hash);
+            const navItem = document.querySelector(`a[href="${hash}"]`);
+            
+            if (target) {
+                target.style.display = 'block';
+                if (navItem) navItem.classList.add('active');
             }
         }
+
         window.addEventListener('hashchange', handleHashChange);
         window.addEventListener('DOMContentLoaded', loadGalleries);
     </script>
