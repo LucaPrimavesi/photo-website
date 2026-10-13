@@ -3,7 +3,9 @@ name: Auto Update Gallery JSON
 on:
   push:
     paths:
-      - 'img/**' # Il robot si sveglia solo quando aggiungi foto
+      - 'img/**'
+      - 'generate_gallery.py'
+      - '.github/workflows/**'
 
 jobs:
   build:
