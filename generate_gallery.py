@@ -16,11 +16,23 @@ def generate():
     # Ordinamento alfabetico di base
     files.sort()
 
-    # Forza 'Empty Spaces' in cima alla lista
-    empty_files = [f for f in files if f.lower().startswith("empty")]
-    other_files = [f for f in files if not f.lower().startswith("empty")]
-    
-    final_list = empty_files + other_files
+    # Ordine di priorità delle gallerie
+    priority = [
+        "empty spaces",
+        "facing art",
+        "street"
+    ]
+
+    def sort_key(filename):
+        name = filename.lower()
+
+        for index, prefix in enumerate(priority):
+            if name.startswith(prefix):
+                return (index, name)
+
+        return (len(priority), name)
+
+    final_list = sorted(files, key=sort_key)
 
     with open("gallery.json", "w", encoding="utf-8") as f:
         json.dump(final_list, f, indent=2, ensure_ascii=False)
