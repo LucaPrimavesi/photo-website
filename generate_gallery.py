@@ -16,11 +16,11 @@ def generate():
     # Ordinamento alfabetico di base
     files.sort()
 
-    # Forza 'Street' in cima alla lista
-    street_files = [f for f in files if f.lower().startswith("street")]
-    other_files = [f for f in files if not f.lower().startswith("street")]
+    # Forza 'Empty Spaces' in cima alla lista
+    empty_files = [f for f in files if f.lower().startswith("empty")]
+    other_files = [f for f in files if not f.lower().startswith("empty")]
     
-    final_list = street_files + other_files
+    final_list = empty_files + other_files
 
     with open("gallery.json", "w", encoding="utf-8") as f:
         json.dump(final_list, f, indent=2, ensure_ascii=False)
