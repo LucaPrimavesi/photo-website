@@ -18,6 +18,15 @@
         nav a:hover, nav a.active { color: #000; font-weight: bold; border-bottom: 1px solid #000; }
         .section-container { display: none; padding: 40px; max-width: 1400px; margin: 0 auto; }
         .section-title { text-align: center; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
+        .gallery-description {
+            max-width: 520px;
+            margin: -15px auto 40px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: #666;
+        }
         .gallery-grid { display: block; column-count: 2; column-gap: 20px; width: 100%; }
         .gallery-item { display: inline-block; width: 100%; margin-bottom: 20px; background-color: #eee; cursor: pointer; overflow: hidden; break-inside: avoid; }
         .gallery-item img { width: 100%; height: auto; display: block; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
@@ -84,7 +93,11 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+            const galleryDescriptions = {
+                "Empty Spaces": "As social life increasingly shifts from physical gathering places to digital spaces, the places once meant to bring us together begin to empty. Empty Spaces explores this transformation and the solitude that may emerge from a world more connected than ever.",
 
+                "Facing Art": "Museums remain places where physical presence shapes a shared experience. Facing Art explores how art and architecture influence human behaviour, creating unexpected relationships between people, artworks and the spaces they inhabit."
+            };
         async function loadGalleries() {
             try {
                 const response = await fetch('gallery.json?v=' + new Date().getTime());
@@ -113,7 +126,13 @@
                     const section = document.createElement('section');
                     section.id = catID;
                     section.className = 'section-container';
-                    section.innerHTML = `<h2 class="section-title">${cat}</h2><div class="gallery-grid"></div>`;
+                    section.innerHTML = `
+                        <h2 class="section-title">${cat}</h2>
+                        ${galleryDescriptions[cat]
+                            ? `<p class="gallery-description">${galleryDescriptions[cat]}</p>`
+                            : ''}
+                        <div class="gallery-grid"></div>
+                    `;
                     content.appendChild(section);
 
                     const grid = section.querySelector('.gallery-grid');
