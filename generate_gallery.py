@@ -19,8 +19,7 @@ def generate():
     # Ordine di priorità delle gallerie
     priority = [
         "empty spaces",
-        "facing art",
-        "street"
+        "facing art"
     ]
 
     def sort_key(filename):
