@@ -162,6 +162,7 @@
             const hash = window.location.hash;
             document.querySelectorAll('.section-container').forEach(s => s.style.display = 'none');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('link-about').classList.remove('active');
             
             if (hash === '#about') {
                 document.getElementById('about').style.display = 'block';
